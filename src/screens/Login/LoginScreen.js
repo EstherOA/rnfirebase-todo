@@ -14,7 +14,7 @@ import { firebase } from "../../firebase/config";
 
 const image = require("../../../assets/splash-alt.png");
 
-export const Login = ({ navigation }) => {
+export const Login = ({ navigation, setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -38,6 +38,7 @@ export const Login = ({ navigation }) => {
               return;
             }
             const user = firestoreDoc.data();
+            setUser(user);
             navigation.navigate("Home", { user });
           })
           .catch((error) => {

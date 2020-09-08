@@ -13,9 +13,8 @@ import { Todo } from "../../components/Todo";
 import { colors, typography } from "../../constants/theme";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-export const Home = ({ navigation }) => {
+export const Home = ({ navigation, extraData: user }) => {
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
-  const user = navigation.extraData;
 
   const homeImage = require("../../../assets/todo.jpg");
 
@@ -44,8 +43,12 @@ export const Home = ({ navigation }) => {
       contentContainerStyle={styles.container}
     >
       <View style={styles.header}>
-        <Text style={styles.title}>Home</Text>
-        <Text style={{ ...typography.subtitle }}>Welcome, {user.fullName}</Text>
+        <View style={styles.headerMain}>
+          <Text style={styles.title}>Home</Text>
+          <Text style={{ ...typography.subtitle, color: colors.cards[0] }}>
+            Welcome, {user.fullName}
+          </Text>
+        </View>
         <Ionicons name="ios-list-box" size={50} color={colors.secondary} />
       </View>
       <SafeAreaView style={styles.listContainer}>
@@ -62,7 +65,7 @@ export const Home = ({ navigation }) => {
           keyExtractor={(item) => item.id}
         />
         <TouchableOpacity style={styles.fab}>
-          <Ionicons name="ios-add" color="white" size={60} />
+          <Ionicons name="ios-add" color="white" size={40} />
         </TouchableOpacity>
       </SafeAreaView>
     </ScrollView>

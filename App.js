@@ -8,6 +8,8 @@ import { Registration } from "./src/screens/Registration/RegistrationScreen";
 import { firebase } from "./src/firebase/config";
 
 import { decode, encode } from "base-64";
+import { Text, ImageBackground, Image, View } from "react-native";
+import { typography, colors } from "./src/constants/theme";
 if (!global.btoa) {
   global.btoa = encode;
 }
@@ -21,13 +23,11 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
-  if (loading) {
-    return <></>;
-  }
-
   useEffect(() => {
+    console.log("loading");
     const usersRef = firebase.firestore().collection("users");
     firebase.auth().onAuthStateChanged((user) => {
+      console.log(user);
       if (user) {
         usersRef
           .doc(user.uid)
@@ -46,9 +46,42 @@ export default function App() {
     });
   }, []);
 
+  if (loading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <Image
+          style={{
+            width: "90%",
+            resizeMode: "contain",
+            justifyContent: "center",
+          }}
+          source={require("./assets/splash-alt.png")}
+        />
+        <View
+          style={{
+            position: "absolute",
+            bottom: 10,
+            color: colors.primary,
+            flexDirection: "row",
+          }}
+        >
+          <Text style={{ color: colors.primary }}>Coded by </Text>
+          <Text style={{ color: colors.secondary }}>Vesp. Inc</Text>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <NavigationContainer>
-      <AuthStack.Navigator>
+      <AuthStack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
           <AuthStack.Screen name="Home">
             {(props) => <Home {...props} extraData={user} />}
@@ -56,8 +89,12 @@ export default function App() {
         ) : (
           <>
             <AuthStack.Screen name="Splash" component={Splash} />
-            <AuthStack.Screen name="Login" component={Login} />
-            <AuthStack.Screen name="Registration" component={Registration} />
+            <AuthStack.Screen name="Login">
+              {(props) => <Login {...props} setUser={setUser} />}
+            </AuthStack.Screen>
+            <AuthStack.Screen name="Registration">
+              {(props) => <Registration {...props} setUser={setUser} />}
+            </AuthStack.Screen>
           </>
         )}
       </AuthStack.Navigator>

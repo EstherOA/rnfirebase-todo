@@ -13,7 +13,7 @@ import { firebase } from "../../firebase/config";
 
 const image = require("../../../assets/splash-alt.png");
 
-export const Registration = ({ navigation }) => {
+export const Registration = ({ navigation, setUser }) => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,6 +44,7 @@ export const Registration = ({ navigation }) => {
           .doc(uid)
           .set(data)
           .then(() => {
+            setUser(data);
             navigation.navigate("Home", { user: data });
           })
           .catch((error) => {

@@ -17,6 +17,9 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
+  headerMain: {
+    flexDirection: "column",
+  },
   title: {
     ...typography.h1,
     color: "white",
@@ -35,8 +38,8 @@ export default StyleSheet.create({
   fab: {
     borderRadius: 50,
     backgroundColor: colors.secondary,
-    width: 60,
-    height: 60,
+    width: 40,
+    height: 40,
     alignItems: "center",
     alignSelf: "flex-end",
     elevation: 5,
