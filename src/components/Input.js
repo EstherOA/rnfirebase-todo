@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { general } from "../constants/theme";
 
 export const Input = (props) => {
-  const [value, onChangeText] = useState("");
+  const [value, onChangeText] = useState(props.initialValue || "");
 
   return (
     <TextInput
@@ -14,16 +14,16 @@ export const Input = (props) => {
       onBlur={() => props.submitInput(value)}
       style={{ ...styles.input, ...props.style }}
       underlineColorAndroid="transparent"
-      {...props.passThroughProps}
+      {...props}
     />
   );
 };
 
 Input.propTypes = {
   placeholder: PropTypes.string,
+  initialValue: PropTypes.string,
   submitInput: PropTypes.func,
   style: PropTypes.object,
-  passThroughProps: PropTypes.any,
 };
 
 const styles = StyleSheet.create({

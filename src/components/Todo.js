@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
 import {
   Ionicons,
@@ -13,13 +13,18 @@ export const Todo = (props) => {
   const [showOptions, setShowOptions] = useState(false);
 
   const handleTodoPress = () => {
-    setChecked(!checked);
+    props.setCompleted(!checked);
   };
+
+  useEffect(() => {
+    setChecked(props.checked);
+  }, [props.checked]);
 
   return (
     <View style={styles.container}>
       {showOptions ? (
         <MaterialCommunityIcons
+          onPress={props.setShowDeleteModal}
           name="delete-forever"
           size={24}
           color={colors.secondary}
@@ -32,7 +37,10 @@ export const Todo = (props) => {
           width: showOptions ? "80%" : "100%",
         }}
         onPress={handleTodoPress}
-        onLongPress={() => setShowOptions(!showOptions)}
+        onLongPress={() => {
+          props.setSelectedTodo();
+          setShowOptions(!showOptions);
+        }}
       >
         <Text style={{ ...typography.p, ...styles.text }}>{props.content}</Text>
         {checked ? (
@@ -44,6 +52,7 @@ export const Todo = (props) => {
       {showOptions ? (
         <MaterialCommunityIcons
           name="playlist-edit"
+          onPress={props.setShowUpdateModal}
           size={24}
           color={colors.gray}
         />

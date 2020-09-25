@@ -1,33 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Modal, StyleSheet, View } from "react-native";
+import { Modal, StyleSheet, Text, View } from "react-native";
 import { colors } from "../constants/theme";
 import { Button } from "./Button";
-import { Input } from "./Input";
-import { firebase } from "../firebase/config";
 
-export const TodoInput = (props) => {
-  const [task, setTask] = useState(props.task || "");
-
+export const ConfirmDialog = (props) => {
   return (
     <View style={styles.centeredView}>
       <Modal
         animationType="slide"
-        onPress={props.handleRemove}
         transparent
         presentationStyle="overFullScreen"
-        visible={props.showModal}
+        visible={props.showDialog}
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Input
-              placeholder="Enter a task..."
-              submitInput={setTask}
-              style={styles.input}
-              initialValue={props.task}
-              numberOfLines={3}
-              textAlignVertical="top"
-              multiline
-            />
+            <Text style={styles.text}>{props.text}</Text>
             <View style={styles.buttonView}>
               <Button
                 title="Cancel"
@@ -35,13 +22,9 @@ export const TodoInput = (props) => {
                 style={styles.cancelButton}
               />
               <Button
-                title="Save"
-                onPress={() => {
-                  props.task
-                    ? props.handleUpdate(task)
-                    : props.handleCreate(task);
-                }}
-                style={styles.saveButton}
+                title="Delete"
+                onPress={props.onDeletePress}
+                style={styles.deleteButton}
               />
             </View>
           </View>
@@ -74,25 +57,22 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  input: {
+  text: {
     marginBottom: 20,
     width: "85%",
-    borderColor: "#e5e5e5",
-    borderRadius: 5,
-    padding: 10,
-    borderWidth: 1,
     fontSize: 15,
+    textAlign: "center",
   },
   buttonView: {
     width: "85%",
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  cancelButton: {
+  deleteButton: {
     backgroundColor: colors.secondary,
     width: "45%",
   },
-  saveButton: {
+  cancelButton: {
     backgroundColor: colors.cards[1],
     width: "45%",
   },

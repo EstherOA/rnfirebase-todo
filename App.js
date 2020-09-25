@@ -27,7 +27,6 @@ export default function App() {
     console.log("loading");
     const usersRef = firebase.firestore().collection("users");
     firebase.auth().onAuthStateChanged((user) => {
-      console.log(user);
       if (user) {
         usersRef
           .doc(user.uid)
