@@ -21,6 +21,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "A simple Todo app with authentication and CRUD functionality using firebase",
+    "githubUrl": "https://github.com/EstherOA/rnfirebase-todo.git"
   }
 }
